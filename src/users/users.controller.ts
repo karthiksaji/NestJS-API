@@ -1,4 +1,4 @@
-import { Controller,Get,Patch,Put,Post,Delete,Param,Body,Req,Query,Headers,Ip,ParseIntPipe} from '@nestjs/common';
+import { Controller,Get,Patch,Put,Post,Delete,Param,Body,Req,Query,Headers,Ip,ParseIntPipe, DefaultValuePipe} from '@nestjs/common';
 import { request } from 'http';
 import { Request } from '@nestjs/common';
 
@@ -7,11 +7,11 @@ import { Request } from '@nestjs/common';
 export class UsersController {
     @Get('/:id?')
     public getUsers(
-        @Param('id',ParseIntPipe) id:number | undefined,
-        @Query('limit',ParseIntPipe) limit:number,
+        @Param('id',new DefaultValuePipe(10), ParseIntPipe) id:number | undefined,
+        @Query('limit',new DefaultValuePipe(1), ParseIntPipe) limit:number,
         @Query('page',ParseIntPipe) page:number, ){
-        console.log(typeof limit);
-        console.log(typeof page);
+        console.log(limit);
+        console.log(page);
         
         
         return "this is the return statement";
