@@ -18,10 +18,16 @@ export class UsersController {
     }
 
     @Post()
-    public postUsers(@Body() request:any){
+    public postUsers(@Body() request:any,
+                    @Headers() headers:any,
+                    @Ip() ip:any){
         console.log(request);
+        console.log(headers);
+        console.log(ip);
         
-        return "this is the post statement";
+        
+        
+        return "this is the post request";
     }
     
 }
