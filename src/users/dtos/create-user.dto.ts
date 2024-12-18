@@ -4,7 +4,7 @@ export class  CreateUserDto{
 @IsString()
 @IsNotEmpty()
 @MinLength(3)
-@MaxLength(9)
+@MaxLength(10)
 firstName:string;
 
 @IsString()

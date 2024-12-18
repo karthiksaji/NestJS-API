@@ -1,6 +1,7 @@
-import { Controller,Get,Patch,Put,Post,Delete,Param,Body,Req,Query,Headers,Ip,ParseIntPipe, DefaultValuePipe} from '@nestjs/common';
+import { Controller,Get,Patch,Put,Post,Delete,Param,Body,Req,Query,Headers,Ip,ParseIntPipe, DefaultValuePipe,ValidationPipe} from '@nestjs/common';
 import { request } from 'http';
 import { Request } from '@nestjs/common';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 
 @Controller('users')
@@ -18,13 +19,9 @@ export class UsersController {
     }
 
     @Post()
-    public postUsers(@Body() request:any,
-                    @Headers() headers:any,
-                    @Ip() ip:any){
-        console.log(request);
-        console.log(headers);
-        console.log(ip);
-        
+    public postUsers(@Body(new ValidationPipe()) createUserDto:CreateUserDto 
+                   ){
+        console.log(createUserDto);  
         
         
         return "this is the post request";
