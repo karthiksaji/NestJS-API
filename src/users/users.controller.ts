@@ -5,10 +5,13 @@ import { Request } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
-    @Get('/:id/:optional?')
-    public getUsers(@Param('id') id:any,@Query('limit') limit:any){
-        console.log(typeof id);
+    @Get('/:id?')
+    public getUsers(
+        @Param('id',ParseIntPipe) id:number | undefined,
+        @Query('limit',ParseIntPipe) limit:number,
+        @Query('page',ParseIntPipe) page:number, ){
         console.log(typeof limit);
+        console.log(typeof page);
         
         
         return "this is the return statement";
