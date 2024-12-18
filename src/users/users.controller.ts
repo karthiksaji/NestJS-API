@@ -7,9 +7,9 @@ import { Request } from '@nestjs/common';
 export class UsersController {
     @Get('/:id?')
     public getUsers(
-        @Param('id',new DefaultValuePipe(10), ParseIntPipe) id:number | undefined,
-        @Query('limit',new DefaultValuePipe(1), ParseIntPipe) limit:number,
-        @Query('page',ParseIntPipe) page:number, ){
+        @Param('id', ParseIntPipe) id:number | undefined,
+        @Query('limit',new DefaultValuePipe(10), ParseIntPipe) limit:number,
+        @Query('page',new DefaultValuePipe(1),ParseIntPipe) page:number, ){
         console.log(limit);
         console.log(page);
         
