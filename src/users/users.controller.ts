@@ -2,16 +2,22 @@ import { Controller,Get,Patch,Put,Post,Delete,Param,Body,Req,Query,Headers,Ip,Pa
 import { request } from 'http';
 import { Request } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-
+import { GetUsersParamDto } from './dtos/get-users-params.dto';
+import { PatchUserDto } from './dtos/patch-user.dto';
+import { UsersService } from './providers/users.service';
 
 @Controller('users')
 export class UsersController {
+    constructor(private readonly usersService:UsersService,){
+
+    }
+
     @Get('/:id?')
     public getUsers(
-        @Param('id', ParseIntPipe) id:number | undefined,
+        @Param() getUserParamDto:GetUsersParamDto,
         @Query('limit',new DefaultValuePipe(10), ParseIntPipe) limit:number,
         @Query('page',new DefaultValuePipe(1),ParseIntPipe) page:number, ){
-        console.log(limit);
+        console.log(getUserParamDto);
         console.log(page);
         
         
@@ -19,12 +25,16 @@ export class UsersController {
     }
 
     @Post()
-    public postUsers(@Body() createUserDto:CreateUserDto 
-                   ){
+    public postUsers(@Body() createUserDto:CreateUserDto ){
         console.log(createUserDto instanceof CreateUserDto);  
         
         
         return "this is the post request";
+    }
+
+    @Patch()
+    public patchUser(@Body() patchUserDto:PatchUserDto){
+        return patchUserDto;
     }
     
 }
