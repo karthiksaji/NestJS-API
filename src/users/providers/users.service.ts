@@ -21,7 +21,7 @@ public findall(
         ];
     }
 
-public findOneById(){
+public findOneById(id:string){
   return{
     id:1234,
     name:'karthik',
