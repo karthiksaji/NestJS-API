@@ -13,7 +13,13 @@ async function bootstrap() {
 
 //swagger documentation
 
-const config=new DocumentBuilder().setVersion('1.0').build();
+const config=new DocumentBuilder()
+  .setTitle('NestJs Masterclass Blog app API')
+  .setDescription('use base url http://localhost:3000/api')
+  .setTermsOfService('http://localhost:3000/terms-of-service')
+  .setLicense('MIT LICENSE','https://github.com/nestjs/nest/blob/master/LICENSE')
+  .addServer("http://localhost:3000")
+  .setVersion('1.0').build();
 
 // instantiate document
 
