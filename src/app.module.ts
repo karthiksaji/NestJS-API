@@ -7,20 +7,25 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
+import { TagsModule } from './tags/tags.module';
+import { MetaOptionsModule } from './meta-options/meta-options.module';
 
 
 @Module({
   imports: [UsersModule, PostsModule, AuthModule,
     TypeOrmModule.forRoot({
       type:'postgres',
-      entities:[User,Post],
+      // entities:[User,Post],
+      autoLoadEntities:true,
       synchronize:true,
       port:5432,
       username:'postgres',
       password:'12345',
       host:'localhost',
       database:'nestjs-blog'
-    })],
+    }),
+    TagsModule,
+    MetaOptionsModule],
   controllers: [AppController],
   providers: [AppService],
 })

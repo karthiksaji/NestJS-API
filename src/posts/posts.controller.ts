@@ -26,8 +26,8 @@ public getPosts(@Param('userId') userId:string){
     description:'you get aa 200 response if your post is created sucessfully'
 })
 
-    @Post()
-    public createPost(@Body() createPostDto:CreatePostDto ){
+@Post()
+public createPost(@Body() createPostDto:CreatePostDto ){
        
         console.log(createPostDto);
         return this.postService.createPost(createPostDto);

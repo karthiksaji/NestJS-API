@@ -13,10 +13,10 @@ constructor(
     @InjectRepository(Post) 
     private postsRepository:Repository<Post>
  ){}
-    public async createPost(createPostDto:CreatePostDto){
-    let newPost=this.postsRepository.create(createPostDto);
-    newPost=await this.postsRepository.save(newPost);
-    return newPost;
+public async createPost(createPostDto:CreatePostDto){
+    // let newPost=this.postsRepository.create(createPostDto);
+    // newPost=await this.postsRepository.save(newPost);
+    // return newPost;
     }
 
 }

@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CreatePostDto } from "./dtos/create-post.dto";
 import { postType } from "./enums/postType.enum";
 import { postStatus } from "./enums/postStatus.enum";
-import { CreatePostMetaOptionsDto } from "./dtos/create-post-meta-options.dto";
+import { CreatePostMetaOptionsDto } from "src/meta-options/dtos/create-post-meta-options.dto";
 import { text } from "stream/consumers";
+import { MetaOption } from "src/meta-options/meta-option.entity";
 @Entity()
 export class Post{
 @PrimaryGeneratedColumn()
@@ -66,8 +67,12 @@ featuredImageUrl:string;
 })
 publishOn?:Date;
 
-//work on these later on relations
+@OneToOne(()=>MetaOption)
+@JoinColumn()
+metaOptions?:MetaOption;
+
+//work on these later on
 tags?:string[];
-metaOptions?:CreatePostMetaOptionsDto[];
+
 
 }
