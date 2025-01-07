@@ -1,6 +1,10 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { GetUsersParamDto } from "../dtos/get-users-params.dto";
 import { AuthService } from "src/auth/providers/auth.service";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "../user.entity";
+import { CreateUserDto } from "../dtos/create-user.dto";
 
 /**
  * class to connect users table and perform bussiness operations 
@@ -10,49 +14,20 @@ import { AuthService } from "src/auth/providers/auth.service";
 export class UsersService{
 
 /**
- * constructor
- */
-
+ * constructor  /**
+     * injecting repository for database
+*/
+ 
 constructor(
-    @Inject(forwardRef(()=>AuthService))
-    private readonly authService:AuthService, 
-   ){}
+    @InjectRepository(User)
+   private usersRepository:Repository<User>,
+){}
 
-/**
- * to get all users from the database
- */
+public async createUser(createUserDto:CreateUserDto){
 
-public findall(
-    getUserParamDto:GetUsersParamDto,
-    limit:number,
-    page:number,)
-    {
-        const isAuth=this.authService.isAuth();
-        console.log(isAuth);
-        
-        return[
-            {
-                firstname:'john',
-                email:'katyh@gmail.com'
-            },
-            {
-                firstname:'hari',
-                email:'hari@getMaxListeners.com'
-            }
-        ];
-    }
-
-/**
- * to get specific user by id
- */
-
-public findOneById(id:string){
-  return{
-    id:1234,
-    name:'karthik',
-    email:'kar@gmail.com'
-  
-};
+//check is user exists with same mail
 }
+
+
 
 }

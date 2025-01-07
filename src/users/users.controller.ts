@@ -44,7 +44,7 @@ export class UsersController {
         console.log(page);
         
         
-        return this.usersService.findall(getUserParamDto,limit,page);
+        // return this.usersService.findall(getUserParamDto,limit,page);
        
     }
 
