@@ -26,6 +26,17 @@ constructor(
 public async createUser(createUserDto:CreateUserDto){
 
 //check is user exists with same mail
+
+const existingUser =await this.usersRepository.findOne({
+    where:{email:createUserDto.email}
+});
+
+//create a new user
+
+let newUser=this.usersRepository.create(createUserDto);
+newUser=await this.usersRepository.save(newUser);
+
+return newUser;
 }
 
 
