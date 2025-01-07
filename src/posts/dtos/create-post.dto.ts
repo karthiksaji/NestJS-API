@@ -1,5 +1,5 @@
 
-import { IsArray, IsDate, IsEnum,IsISO8601,IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsDate, IsEnum,IsISO8601,IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, maxLength, MaxLength, MinLength, ValidateNested } from "class-validator";
 import { postStatus } from "../enums/postStatus.enum";
 import { postType } from "../enums/postType.enum";
 import { CreatePostMetaOptionsDto } from "./create-post-meta-options.dto";
@@ -9,6 +9,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 export class CreatePostDto{
     @IsString()
     @MinLength(4)
+    @MaxLength(512)
     @IsNotEmpty()
     @ApiProperty({
         description:'this is the title for the blog spot',
@@ -22,10 +23,11 @@ export class CreatePostDto{
         enum:postType,
         description:"possible values are 'post','page',story','series'"
     })
-    postType:postType;
+    posttype:postType;
 
     @IsString()
     @IsNotEmpty()
+    @MaxLength(256)
     @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/,{
         message:'a slug should be small spaces'
     })
@@ -60,6 +62,7 @@ export class CreatePostDto{
 
     @IsOptional()
     @IsUrl()
+    @MaxLength(1024)
     @ApiPropertyOptional({
         description:"featured image for your blog post",
         example:'http://localhost.com/images/image1.jpg'
@@ -72,7 +75,7 @@ export class CreatePostDto{
         description:"the date on which  the blog is published",
         example:'2024-03-16t07:46:32+000',
     })
-    PublishOn?:Date;
+    publishOn?:Date;
 
     @IsOptional()
     @IsArray()

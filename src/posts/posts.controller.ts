@@ -14,7 +14,7 @@ constructor(private readonly postService:PostsService){
 
 @Get('/:userId?')
 public getPosts(@Param('userId') userId:string){
-    return this.postService.findall(userId);
+   
 }
 
 
@@ -25,9 +25,12 @@ public getPosts(@Param('userId') userId:string){
     status:200,
     description:'you get aa 200 response if your post is created sucessfully'
 })
-@Post()
-public createPost(@Body() createPostDto:CreatePostDto){
-    console.log(createPostDto);
+
+    @Post()
+    public createPost(@Body() createPostDto:CreatePostDto ){
+       
+        console.log(createPostDto);
+        return this.postService.createPost(createPostDto);
     }
 
 @Patch()
