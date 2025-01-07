@@ -30,7 +30,7 @@ public getPosts(@Param('userId') userId:string){
 public createPost(@Body() createPostDto:CreatePostDto ){
        
         console.log(createPostDto);
-        return this.postService.createPost(createPostDto);
+        return this.postService.create(createPostDto);
     }
 
 @Patch()
