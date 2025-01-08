@@ -23,10 +23,19 @@ constructor(
 public async create(@Body() createPostDto:CreatePostDto){
    
     let post=this.postsRepository.create(createPostDto)
-
     return await this.postsRepository.save(post);
+
     // newPost=await this.postsRepository.save(newPost);
     // return newPost;
     }
+
+public async findall(userId:string){
+    let posts=await this.postsRepository.find({
+        // relations:{
+        //     metaOptions:true, /* eager in post entity*/
+        // }
+    });
+    return posts;
+}
 
 }
