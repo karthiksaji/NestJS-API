@@ -1,5 +1,5 @@
 
-import { IsArray, IsDate, IsEnum,IsISO8601,IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, maxLength, MaxLength, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsDate, IsEnum,IsInt,IsISO8601,IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, maxLength, MaxLength, MinLength, ValidateNested } from "class-validator";
 import { postStatus } from "../enums/postStatus.enum";
 import { postType } from "../enums/postType.enum";
 import { CreatePostMetaOptionsDto } from "../../meta-options/dtos/create-post-meta-options.dto";
@@ -105,6 +105,14 @@ export class CreatePostDto{
         }
     })
     metaOptions?:CreatePostMetaOptionsDto | null;;
+    @ApiProperty({
+        type:'integer',
+        required:true,
+        example:1,
+    })
+    @IsInt()
+    @IsNotEmpty()
+    authorId:number;
 
 
 }

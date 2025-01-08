@@ -38,6 +38,11 @@ newUser=await this.usersRepository.save(newUser);
 
 return newUser;
 }
+public async findOneById(id:number){
+    return await this.usersRepository.findOneBy({
+        
+    })
+}
 
 
 
