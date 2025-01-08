@@ -21,15 +21,9 @@ constructor(
     public readonly metaOptionsRepository:Repository<MetaOption>
  ){}
 public async create(@Body() createPostDto:CreatePostDto){
-    let metaOptions=createPostDto.metaOptions?  this.metaOptionsRepository.create(createPostDto.metaOptions):null;
-    if(metaOptions){
-        await this.metaOptionsRepository.save(metaOptions);
-    }
-
+   
     let post=this.postsRepository.create(createPostDto)
-    if(metaOptions){
-        post.metaOptions=metaOptions;
-    }
+
     return await this.postsRepository.save(post);
     // newPost=await this.postsRepository.save(newPost);
     // return newPost;
