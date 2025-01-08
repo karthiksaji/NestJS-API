@@ -39,24 +39,9 @@ public async findall(userId:string){
     }
 
 public async delete(id:number){
-    //find the post
-    let post=await this.postsRepository.findOneBy({id});
-    // //deleting the post
-    // await this.postsRepository.delete(id);
-    // //deleting the meta options
-    // await this.metaOptionsRepository.delete(post.metaOptions.id);
-
-
-    let inversePost=await this.metaOptionsRepository.find({
-        where:{id:post.metaOptions.id},
-        relations:{
-            post:true,
-        },
-    })
-    console.log(inversePost);
-    
+    //deleting the post
+    await this.postsRepository.delete(id);
      //confirmation
-        
     return {deleted:true,id};
 }
 

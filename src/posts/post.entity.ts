@@ -71,7 +71,7 @@ publishOn?:Date;
     cascade:true,
     eager:true,
 })
-@JoinColumn()
+
 metaOptions?:MetaOption;
 
 //work on these later on
