@@ -1,10 +1,11 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CreatePostDto } from "./dtos/create-post.dto";
 import { postType } from "./enums/postType.enum";
 import { postStatus } from "./enums/postStatus.enum";
 import { CreatePostMetaOptionsDto } from "src/meta-options/dtos/create-post-meta-options.dto";
 import { text } from "stream/consumers";
 import { MetaOption } from "src/meta-options/meta-option.entity";
+import { User } from "src/users/user.entity";
 @Entity()
 export class Post{
 @PrimaryGeneratedColumn()
@@ -73,6 +74,9 @@ publishOn?:Date;
 })
 
 metaOptions?:MetaOption;
+
+@ManyToOne(()=>User,(users)=>users.posts)
+author:User  //here rely foreign key
 
 //work on these later on
 tags?:string[];
