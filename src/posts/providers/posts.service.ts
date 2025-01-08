@@ -36,6 +36,17 @@ public async findall(userId:string){
         // }
     });
     return posts;
+    }
+
+public async delete(id:number){
+    //find the post
+    let post=await this.postsRepository.findOneBy({id});
+    //deleting the post
+    await this.postsRepository.delete(id);
+    //deleting the meta options
+    await this.metaOptionsRepository.delete(post.metaOptions.id);
+    //confirmation
+    return {deleted:true,id};
 }
 
 }
