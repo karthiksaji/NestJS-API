@@ -75,7 +75,9 @@ publishOn?:Date;
 
 metaOptions?:MetaOption;
 
-@ManyToOne(()=>User,(users)=>users.posts)
+@ManyToOne(()=>User,(users)=>users.posts,{
+    eager:true,
+})
 author:User  //here rely foreign key
 
 //work on these later on

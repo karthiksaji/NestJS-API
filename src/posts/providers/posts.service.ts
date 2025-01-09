@@ -37,9 +37,10 @@ public async create(@Body() createPostDto:CreatePostDto){
 
 public async findall(userId:string){
     let posts=await this.postsRepository.find({
-    //     // relations:{
-    //     //     metaOptions:true, /* eager in post entity*/
-    //     // }
+        relations:{
+            metaOptions:true,
+            author:true, /* eager in post entity*/
+        }
     });
     return posts;
     }
