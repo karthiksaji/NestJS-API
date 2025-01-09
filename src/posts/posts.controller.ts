@@ -37,6 +37,7 @@ public createPost(@Body() createPostDto:CreatePostDto ){
 @Patch()
 public updatePost(@Body() patchPostDto:PatchPostDto){
     console.log(patchPostDto);
+    return this.postService.update(patchPostDto);
     
 }
 

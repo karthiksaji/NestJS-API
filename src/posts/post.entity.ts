@@ -82,7 +82,9 @@ metaOptions?:MetaOption;
 author:User  //here rely foreign key
 
 //work on these later on
-@ManyToMany(()=>Tag)
+@ManyToMany(()=>Tag,{
+    eager:true
+})
 @JoinTable()
 tags?:Tag[];
 
