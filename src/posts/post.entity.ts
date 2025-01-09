@@ -69,8 +69,10 @@ featuredImageUrl:string;
 })
 publishOn?:Date;
 
+
+
 @OneToOne(()=>MetaOption,(metaOptions)=>metaOptions.post,{
-    cascade:true,
+    cascade:true, //automatically add delete update 
     eager:true,
 })
 
@@ -82,7 +84,7 @@ metaOptions?:MetaOption;
 author:User  //here rely foreign key
 
 //work on these later on
-@ManyToMany(()=>Tag,{
+@ManyToMany(()=>Tag,(tags)=>tags.posts,{
     eager:true
 })
 @JoinTable()

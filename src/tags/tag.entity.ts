@@ -1,5 +1,6 @@
 import { text } from "stream/consumers";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column,ManyToMany, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn } from "typeorm";
+import { Post } from "src/posts/post.entity";
 
 @Entity()
 export class Tag{
@@ -40,6 +41,11 @@ export class Tag{
         nullable:true,
     })
     featureImageUrl:string;
+
+    @ManyToMany(()=>Post,(post)=>post.tags,{
+        onDelete:'CASCADE',
+    })
+      posts=Post;
 
     @CreateDateColumn()
     createDate:Date;

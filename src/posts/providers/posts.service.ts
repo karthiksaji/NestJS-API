@@ -76,7 +76,7 @@ public async update(patchPostDto:PatchPostDto){
     post.posttype=patchPostDto.posttype??post.posttype;
     post.slug=patchPostDto.slug??post.slug;
     post.featuredImageUrl=
-                    patchPostDto.featuredImageUrl??post.featuredImageUrl;
+    patchPostDto.featuredImageUrl??post.featuredImageUrl;
     post.publishOn=patchPostDto.publishOn??post.publishOn;
 
     //assign the new tags
