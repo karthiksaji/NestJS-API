@@ -42,11 +42,16 @@ export class UsersController {
         @Query('page',new DefaultValuePipe(1),ParseIntPipe) page:number, ){
         console.log(getUserParamDto);
         console.log(page);
+      
         
         
         // return this.usersService.findall(getUserParamDto,limit,page);
        
     }
+    // @Get()
+    // public getUsersn(){
+    //     return this.usersService.findall();
+    // }
 
     @Post()
     public postUsers(@Body() createUserDto:CreateUserDto ){
