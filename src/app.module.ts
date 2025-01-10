@@ -14,6 +14,7 @@ import appConfig from "./config/app.config"
 import databaseConfig from './config/database.config';
 
 
+
 const ENV=process.env.NODE_ENV;
 
 
@@ -31,8 +32,8 @@ const ENV=process.env.NODE_ENV;
       useFactory:(configService:ConfigService)=>({
       type:'postgres',
       // entities:[User,Post],
-      autoLoadEntities:configService.get('database.autoLoadEntities'),
-      synchronize:configService.get('database.synchronize'),
+      autoLoadEntities:true,/*configService.get('database.autoLoadEntities')*/
+      synchronize:true,/*configService.get('database.synchronize')*/
       port:5432,
       username:'postgres',
       password:'password',
