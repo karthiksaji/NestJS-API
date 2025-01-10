@@ -45,7 +45,7 @@ export class Tag{
     @ManyToMany(()=>Post,(post)=>post.tags,{
         onDelete:'CASCADE',
     })
-      posts=Post;
+      posts:Post[];
 
     @CreateDateColumn()
     createDate:Date;

@@ -9,10 +9,14 @@ import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
   imports: [UsersModule, PostsModule, AuthModule,
+    ConfigModule.forRoot({
+      isGlobal:true,
+      }),
     TypeOrmModule.forRoot({
       type:'postgres',
       // entities:[User,Post],
