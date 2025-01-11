@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, RequestTimeoutException } from "@nestjs/common";
+import { BadRequestException, forwardRef, Inject, Injectable, RequestTimeoutException } from "@nestjs/common";
 import { GetUsersParamDto } from "../dtos/get-users-params.dto";
 import { AuthService } from "src/auth/providers/auth.service";
 import { Repository } from "typeorm";
@@ -40,12 +40,12 @@ public findall(){
 
 public async createUser(createUserDto:CreateUserDto){
 
-    const existingUser=undefined;
+    let existingUser=undefined;
 //check is user exists with same mail
 
 try{
     /* check user exists with the same email*/
-    await this.usersRepository.findOne({
+    existingUser=await this.usersRepository.findOne({
     where:{email:createUserDto.email}
 });
     }catch(error){
@@ -57,6 +57,14 @@ try{
                 description:'error connecting to database'
             },
         )
+}
+
+//handle exception
+
+if(existingUser){
+    throw new BadRequestException(
+        'user already exists,please check your email'
+    )
 }
 
 //create a new user
