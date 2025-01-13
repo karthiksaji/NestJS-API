@@ -45,7 +45,7 @@ export class UsersController {
       
         
         
-        // return this.usersService.findall(getUserParamDto,limit,page);
+        return this.usersService.findall(getUserParamDto,limit,page);
        
     }
     // @Get()
