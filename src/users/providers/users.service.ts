@@ -1,13 +1,14 @@
 import { BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable, RequestTimeoutException } from "@nestjs/common";
 import { GetUsersParamDto } from "../dtos/get-users-params.dto";
 import { AuthService } from "src/auth/providers/auth.service";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../user.entity";
 import { CreateUserDto } from "../dtos/create-user.dto";
 import { ConfigService, ConfigType } from "@nestjs/config";
 import profileConfig from "../config/profile.config";
 import { error } from "console";
+import { query } from "express";
 
 /**
  * class to connect users table and perform bussiness operations 
@@ -26,7 +27,11 @@ constructor(
    private usersRepository:Repository<User>,
 
     @Inject(profileConfig.KEY)
-    private readonly profileConfiguration:ConfigType<typeof profileConfig>
+    private readonly profileConfiguration:ConfigType<typeof profileConfig>,
+
+    //inject datasource
+
+    private readonly dataSource:DataSource,
    
 ){}
 
@@ -118,13 +123,35 @@ public async findOneById(id:number){
         throw new BadRequestException('user id doesnt exist')
     }
     return user;
+ }
 
+public async createMany(createUserDto:CreateUserDto[]){
+    let newUsers:User[]=[];
+    // create query runner instance
+    const queryRunner=this.dataSource.createQueryRunner();
+    //connect query runner instance to datasource
+    await queryRunner.connect();
+    
+    //start transaction
+    await queryRunner.startTransaction();
+    try {
+        for(let user of createUserDto){
+            let newUser=queryRunner.manager.create(User,user);
+            let result=await queryRunner.manager.save(newUser);
+            newUsers.push(result);
+        }
+        //if sucessfull
+        await queryRunner.commitTransaction();
+    } catch (error) {
+        //if unsucessfull then rollback
+        await queryRunner.rollbackTransaction();
+        
+    }finally{
+        //release comnnection
+        await queryRunner.release();
+    }
 
-    return await this.usersRepository.findOneBy({
-        id
-    })
-}
-
+}    
 
 
 }
