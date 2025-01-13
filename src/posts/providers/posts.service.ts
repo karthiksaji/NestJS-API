@@ -9,6 +9,8 @@ import { MetaOption } from 'src/meta-options/meta-option.entity';
 import { create } from 'domain';
 import { TagsService } from 'src/tags/providers/tags.service';
 import { PatchPostDto } from '../dtos/patch-post.dto';
+import { BadRequestException, forwardRef, HttpException, HttpStatus, RequestTimeoutException } from "@nestjs/common";
+
 
 @Injectable()
 export class PostsService {
@@ -61,12 +63,49 @@ public async findall(userId:string){
     }
 
 public async update(patchPostDto:PatchPostDto){
-    let tags=await this.tagsService.findMultipleTags(patchPostDto.tags);
-    /**
-     * find the post
+    let tags=undefined;
+    let post=undefined;
+
+    try {
+       tags= await this.tagsService.findMultipleTags(patchPostDto.tags);
+    } catch (error) {
+        throw new RequestTimeoutException(
+            'unable to process your request at the momemnt please try again later',
+            {
+                description:'error connecting to database'
+            },
+        )
+    }
+   
+     /**
+     * If tags were not found
+     * Need to be equal number of tags
      */
-    let post=await this.postsRepository.findOneBy({
-        id:patchPostDto.id})
+     if (!tags || tags.length !== patchPostDto.tags.length) {
+        throw new BadRequestException(
+          'Please check your tag Ids and ensure they are correct',
+        );
+      }
+  
+      // Find the Post
+      try {
+        // Returns null if the post does not exist
+        post = await this.postsRepository.findOneBy({
+          id: patchPostDto.id,
+        });
+      } catch (error) {
+        throw new RequestTimeoutException(
+          'Unable to process your request at the moment please try later',
+          {
+            description: 'Error connecting to the database',
+          },
+        );
+      }
+  
+      if (!post) {
+        throw new BadRequestException('The post Id does not exist');
+      }
+  
     /**
      * update the properties
      */
@@ -82,10 +121,18 @@ public async update(patchPostDto:PatchPostDto){
     //assign the new tags
     post.tags=tags;
     //save the post and return
-    return await this.postsRepository.save(post);
-
-    
-}
+    try {
+        await this.postsRepository.save(post);
+      } catch (error) {
+        throw new RequestTimeoutException(
+          'Unable to process your request at the moment please try later',
+          {
+            description: 'Error connecting to the database',
+          },
+        );
+      }
+      return post;
+    }
 
 public async delete(id:number){
     //deleting the post
