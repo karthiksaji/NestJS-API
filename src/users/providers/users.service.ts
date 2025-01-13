@@ -43,12 +43,12 @@ public async createUser(createUserDto:CreateUserDto){
     let existingUser=undefined;
 //check is user exists with same mail
 
-try{
-    /* check user exists with the same email*/
-    existingUser=await this.usersRepository.findOne({
-    where:{email:createUserDto.email}
-});
-    }catch(error){
+    try {
+        /* check user exists with the same email*/
+        existingUser = await this.usersRepository.findOne({
+            where: { email: createUserDto.email }
+        });
+    } catch (error) {
         //might save the details for the exception
         //information which is sensitive
         throw new RequestTimeoutException(
@@ -70,13 +70,45 @@ if(existingUser){
 //create a new user
 
 let newUser=this.usersRepository.create(createUserDto);
+try{
 newUser=await this.usersRepository.save(newUser);
+}catch(error){
+    throw new RequestTimeoutException(
+        'unable to process your request at the momemnt please try again later',
+        {
+            description:'error connecting to database'
+        },
+    )
+}
 
 return newUser;
 }
 public async findOneById(id:number){
+    let user=undefined;
+    try {
+      user=await this.usersRepository.findOneBy({
+            id,
+        })
+    } catch (error) {
+        throw new RequestTimeoutException(
+            'unable to process your request at the momemnt please try again later',
+            {
+                description:'error connecting to database'
+            },
+        )
+    }
+
+    /*
+    user doesnt exist exception
+    */
+    if(!user){
+        throw new BadRequestException('user id doesnt exist')
+    }
+    return user;
+
+
     return await this.usersRepository.findOneBy({
-        
+        id
     })
 }
 
